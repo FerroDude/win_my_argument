@@ -1,4 +1,4 @@
-
+import { Button } from "@/components/ui/button"
 
 function App() {
   const testeFunc = () => {
@@ -8,8 +8,10 @@ function App() {
   return (
     <>
       <h1>Teste APP component</h1>
-      <button onClick={testeFunc}>Console log teste</button>
+     
+      <Button variant="default" size="default" onClick={testeFunc}>Teste Button</Button>
     </>
+
   );
 }
 
