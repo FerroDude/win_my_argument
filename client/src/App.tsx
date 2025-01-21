@@ -52,9 +52,8 @@ function App() {
     <>
       <Container>
         <h1 className="text-primary text-h1 text-center">Win My Argument</h1>
+        <Input type="text" placeholder="Search for a topic" />
         <div className="bg-background-secondary  w-auto h-auto py-5 px-5 rounded-md flex flex-col justify-center content-center gap-10">
-          <Input type="text" placeholder="Search for a topic" />
-
           <Answer studiesAmount={studiesAmount} answer={answerContent} />
         </div>
         <Studies studies={studies} />
