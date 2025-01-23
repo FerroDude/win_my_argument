@@ -1,6 +1,6 @@
 import Container from './components/Container';
 import { Input } from './components/ui/input.tsx';
-import { Button } from './components/ui/button.tsx';
+import { useRef } from 'react';
 import Answer from './components/Answer.tsx';
 import Studies from './components/Studies.tsx';
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import { studies, studiesAmount, answerContent } from './dummyData.json';
 function App() {
   const [searchInput, setSearchInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -20,30 +21,32 @@ function App() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      //Fetch data
-      console.log('Fetching data...');
       await new Promise(resolve => setTimeout(resolve, 2000));
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
+      console.log('Form submitted');
     }
-    console.log('Form submitted');
-    setIsLoading(false);
   };
 
   return (
     <>
       <Container>
         <h1 className="text-primary text-h1 text-center">Win My Argument</h1>
-        <form onSubmit={handleFormSubmit} className="flex flex-col items-center gap-4">
+        <form
+          ref={formRef}
+          onSubmit={handleFormSubmit}
+          className="flex flex-col items-center gap-4"
+        >
           <Input
+            formRef={formRef}
             onChange={handleSearchInput}
             value={searchInput}
             type="text"
             placeholder="Search for a topic"
+            isLoading={isLoading}
           />
-          <Button type="submit" className="" variant="default">
-            {isLoading ? 'Loading...' : 'Search'}
-          </Button>
         </form>
         <div className="bg-background-secondary  w-auto h-auto py-5 px-5 rounded-md flex flex-col justify-center content-center gap-10">
           <Answer studiesAmount={studiesAmount} answer={answerContent} />
