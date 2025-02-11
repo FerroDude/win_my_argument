@@ -9,6 +9,7 @@ import { studies, studiesAmount, answerContent } from './dummyData.json';
 
 function App() {
   const [searchInput, setSearchInput] = useState<string>('');
+  const [showResults, setShowResults] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -21,11 +22,13 @@ function App() {
     e.preventDefault();
     setIsLoading(true);
     try {
+      setShowResults(false);
       await new Promise(resolve => setTimeout(resolve, 2000));
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
+      setShowResults(true);
       console.log('Form submitted');
     }
   };
@@ -48,10 +51,15 @@ function App() {
             isLoading={isLoading}
           />
         </form>
-        <div className="bg-background-secondary  w-auto h-auto py-5 px-5 rounded-md flex flex-col justify-center content-center gap-10">
-          <Answer studiesAmount={studiesAmount} answer={answerContent} />
-        </div>
-        <Studies studies={studies} />
+
+        {showResults && (
+          <>
+            <div className="bg-background-secondary  w-auto h-auto py-5 px-5 rounded-md flex flex-col justify-center content-center gap-10">
+              <Answer studiesAmount={studiesAmount} answer={answerContent} />
+            </div>
+            <Studies studies={studies} />
+          </>
+        )}
       </Container>
     </>
   );
